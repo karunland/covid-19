@@ -17,8 +17,9 @@ class covid:
         self.recovered = [item['Recovered'] for item in self.data_covid]
         self.date      = [item['Date']      for item in self.data_covid]
         self.deaths    = [item['Deaths']    for item in self.data_covid]
+        self.death_daily = self.deaths_day_by_day(self.deaths)
         self.countries.sort()
-
+        self.length = len(self.deaths)
         self.confirmed_percent_recovered = [0]
         self.confirmed_percent_death     = [0]
         for item in range(len(self.confirmed)):
@@ -52,6 +53,20 @@ class covid:
     def print_all_info(self):
         for item in self.data_covid:
             print(item)
+
+    # API doesn't include death day by day, need to calculate
+
+    def deaths_day_by_day(self, deaths_list_=None):
+        deaths_daybyday_list = [0]
+
+        for item in range(self.length):
+            if item != self.length - 1:
+
+                result = deaths_list_[item + 1] - deaths_list_[item]
+                if result >= 0:
+                    deaths_daybyday_list.append(result)
+
+        return deaths_daybyday_list
 
     def clicked(self, args):
         selected_country = self.my_listbox.get(self.my_listbox.curselection())
