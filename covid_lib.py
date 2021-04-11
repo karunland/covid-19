@@ -30,8 +30,8 @@ class covid:
 
         for item in range(len(self.confirmed)):
             try:
-                self.confirmed_percent_death.append(self.deaths[item] / self.confirmed[item] * 100)
-                self.confirmed_percent_recovered.append(self.recovered[item] / self.confirmed[item] * 100)
+                self.confirmed_percent_death.append(self.death_daily[item] / self.confirmed_daily[item] * 100)
+                self.confirmed_percent_recovered.append(self.recovered_daily[item] / self.confirmed_daily[item] * 100)
             except ZeroDivisionError: # Avoid the zero division problem
                 self.confirmed_percent_death.append(0)
                 self.confirmed_percent_recovered.append(0)
@@ -39,23 +39,7 @@ class covid:
         # ------------------------------------------
         # Create frame
         # ------------------------------------------
-        self.frame = Tk()
-        self.frame.title(title)
-        self.frame.geometry('350x500+400+300')
-        self.my_listbox = Listbox(self.frame, height=350, selectmode=EXTENDED)
-        for item in self.countries: # Append sorted conrty list
-            self.my_listbox.insert(END, item)
-
-        Button_1 = Button(self.frame, text="1)Total Deaths", command=lambda: self.clicked(1))
-        Button_2 = Button(self.frame, text="2)Percentage of recovered", command=lambda: self.clicked(2))
-        Button_3 = Button(self.frame, text="3)Percentage of deaths", command=lambda: self.clicked(3))
-
-        self.my_listbox.pack(side=RIGHT)
-        Button_1.pack()
-        Button_2.pack()
-        Button_3.pack()
-
-        mainloop()
+        self.draw(title)
 
     def print_all_info(self):
         for item in self.data_covid:
@@ -63,10 +47,21 @@ class covid:
 
     # API doesn't include death day by day, need to calculate
 
-    def deaths_day_by_day(self, deaths_list_=None):
-        deaths_daybyday_list = [0]
+    def daily_indormation(self, deaths_list_=None):
+        daily_list = [0]
+        length = len(self.deaths)
 
-        for item in range(self.length):
+        for item in range(length):
+            if item == 0:
+                daily_list[item] = 0
+            else:
+                try:
+                    result = deaths_list_[item] - deaths_list_[item - 1]
+                    daily_list.append(result)
+                except:
+                    daily_list.append(0)
+                    print('------Error----')
+            """
             if item != self.length - 1:
 
                 result = deaths_list_[item + 1] - deaths_list_[item]
