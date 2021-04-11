@@ -1,35 +1,72 @@
-import matplotlib.pyplot as my_object
+import matplotlib.pyplot as my_plot
 from urllib.request import urlopen
 import json
 from tkinter import *
 
 
 class covid:
-    def __init__(self, covid_url='https://api.covid19api.com/total/dayone/country/', my_country='Turkey',
+    def __init__(self, title='Covid-19', covid_url='https://api.covid19api.com/total/dayone/country/',
+                 my_country='Turkey',
                  country_list='https://api.covid19api.com/countries'):
-        self.data_covid = json.loads(urlopen(covid_url + my_country).read().decode("utf-8"))
+
+        self.data_covid     = json.loads(urlopen(covid_url + my_country).read().decode("utf-8"))
         self.json_countries = json.loads(urlopen(country_list).read().decode("utf-8"))
 
-        self.countries = [item['Country'] for item in self.json_countries]
+        self.countries = [item['Country']   for item in self.json_countries]
         self.confirmed = [item['Confirmed'] for item in self.data_covid]
         self.recovered = [item['Recovered'] for item in self.data_covid]
-        self.date = [item['Date'] for item in self.data_covid]
-        self.deaths = [item['Deaths'] for item in self.data_covid]
+        self.date      = [item['Date']      for item in self.data_covid]
+        self.deaths    = [item['Deaths']    for item in self.data_covid]
+        self.countries.sort()
 
         self.confirmed_percent_recovered = [0]
-        self.confirmed_percent_death = [0]
-
+        self.confirmed_percent_death     = [0]
         for item in range(len(self.confirmed)):
             try:
                 self.confirmed_percent_death.append(self.deaths[item] / self.confirmed[item] * 100)
                 self.confirmed_percent_recovered.append(self.recovered[item] / self.confirmed[item] * 100)
-            except ZeroDivisionError:
+            except ZeroDivisionError: # Avoid the zero division problem
                 self.confirmed_percent_death.append(0)
                 self.confirmed_percent_recovered.append(0)
+        # ------------------------------------------
+        # Create frame
+        # ------------------------------------------
+        self.frame = Tk()
+        self.frame.title(title)
+        self.frame.geometry('350x500+400+300')
+        self.my_listbox = Listbox(self.frame, height=350, selectmode=EXTENDED)
+        for item in self.countries: # Append sorted conrty list
+            self.my_listbox.insert(END, item)
+
+        Button_1 = Button(self.frame, text="1)Total Deaths", command=lambda: self.clicked(1))
+        Button_2 = Button(self.frame, text="2)Percentage of recovered", command=lambda: self.clicked(2))
+        Button_3 = Button(self.frame, text="3)Percentage of deaths", command=lambda: self.clicked(3))
+
+        self.my_listbox.pack(side=RIGHT)
+        Button_1.pack()
+        Button_2.pack()
+        Button_3.pack()
+
+        mainloop()
 
     def print_all_info(self):
         for item in self.data_covid:
             print(item)
+
+    def clicked(self, args):
+        selected_country = self.my_listbox.get(self.my_listbox.curselection())
+        if args == 1:
+            my_plot.plot(self.deaths)
+            my_plot.show()
+            my_plot.close()
+        if args == 2:
+            my_plot.plot(self.confirmed_percent_recovered)
+            my_plot.show()
+            my_plot.close()
+        if args == 3:
+            my_plot.plot(self.confirmed_percent_death)
+            my_plot.show()
+            my_plot.close()
 
     def draw(self):
         pass
@@ -37,8 +74,3 @@ class covid:
 
 if __name__ == '__main__':
     obj = covid()
-    for item in range(len(obj.confirmed)):
-        # print(f'%{obj.confirmed_percent_recovered[item]} people recovered: %{obj.confirmed_percent_death[item]} people died')
-        print('In {}% {:.2f} of people recovered : % {:.2f} of people died.'.format(obj.date[item],
-                                                                                obj.confirmed_percent_recovered[item],
-                                                                                obj.confirmed_percent_death[item]))
