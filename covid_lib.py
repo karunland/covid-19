@@ -66,9 +66,10 @@ class covid:
 
                 result = deaths_list_[item + 1] - deaths_list_[item]
                 if result >= 0:
-                    deaths_daybyday_list.append(result)
+                    daily_list.append(result)
+            """
 
-        return deaths_daybyday_list
+        return daily_list
 
     def clicked(self, args):
         selected_country = self.my_listbox.get(self.my_listbox.curselection())
