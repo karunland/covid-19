@@ -70,16 +70,25 @@ class covid:
 
     def clicked(self, args):
         selected_country = self.my_listbox.get(self.my_listbox.curselection())
+
         if args == 1:
             my_plot.plot(self.deaths)
+            for item in range(self.length):
+                print(f'{self.date[item]} : total death = {self.deaths[item]}')
             my_plot.show()
             my_plot.close()
+
         if args == 2:
             my_plot.plot(self.confirmed_percent_recovered)
+            for item in range(self.length):
+                print(f'{self.date[item]} : recovered people = {self.recovered[item]}')
             my_plot.show()
             my_plot.close()
+
         if args == 3:
             my_plot.plot(self.confirmed_percent_death)
+            for item in range(self.length):
+                print(f'{self.date[item]} : Today died {self.death_daily[item]}')
             my_plot.show()
             my_plot.close()
 
