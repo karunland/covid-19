@@ -17,11 +17,17 @@ class covid:
         self.recovered = [item['Recovered'] for item in self.data_covid]
         self.date      = [item['Date']      for item in self.data_covid]
         self.deaths    = [item['Deaths']    for item in self.data_covid]
-        self.death_daily = self.deaths_day_by_day(self.deaths)
+
+        self.death_daily     = self.daily_indormation(self.deaths)
+        self.recovered_daily = self.daily_indormation(self.recovered)
+        self.confirmed_daily = self.daily_indormation(self.confirmed)
+
         self.countries.sort()
         self.length = len(self.deaths)
+
         self.confirmed_percent_recovered = [0]
         self.confirmed_percent_death     = [0]
+
         for item in range(len(self.confirmed)):
             try:
                 self.confirmed_percent_death.append(self.deaths[item] / self.confirmed[item] * 100)
@@ -29,6 +35,7 @@ class covid:
             except ZeroDivisionError: # Avoid the zero division problem
                 self.confirmed_percent_death.append(0)
                 self.confirmed_percent_recovered.append(0)
+
         # ------------------------------------------
         # Create frame
         # ------------------------------------------
