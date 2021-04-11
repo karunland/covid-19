@@ -39,6 +39,6 @@ if __name__ == '__main__':
     obj = covid()
     for item in range(len(obj.confirmed)):
         # print(f'%{obj.confirmed_percent_recovered[item]} people recovered: %{obj.confirmed_percent_death[item]} people died')
-        print('date:{}% {:.2f} people recovered : % {:.2f} people died.'.format(obj.date[item],
+        print('In {}% {:.2f} of people recovered : % {:.2f} of people died.'.format(obj.date[item],
                                                                                 obj.confirmed_percent_recovered[item],
                                                                                 obj.confirmed_percent_death[item]))
