@@ -22,11 +22,15 @@ class covid:
         for item in range(len(self.confirmed)):
             try:
                 self.confirmed_percent_death.append(self.deaths[item] / self.confirmed[item] * 100)
+                self.confirmed_percent_recovered.append(self.recovered[item] / self.confirmed[item] * 100)
             except ZeroDivisionError:
                 self.confirmed_percent_death.append(0)
+                self.confirmed_percent_recovered.append(0)
+
     def print_all_info(self):
         for item in self.data_covid:
             print(item)
+
     def draw(self):
         pass
 
