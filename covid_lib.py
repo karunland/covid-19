@@ -88,19 +88,45 @@ class covid:
         if args == 2:
             my_plot.plot(self.confirmed_percent_recovered)
             for item in range(self.length):
-                print(f'{self.date[item]} : recovered people = {self.recovered[item]}')
+                print(f'{self.date[item]} : recovered people = {self.recovered_daily[item]}')
             my_plot.show()
             my_plot.close()
 
         if args == 3:
             my_plot.plot(self.confirmed_percent_death)
-            for item in range(self.length):
-                print(f'{self.date[item]} : Today died {self.death_daily[item]}')
+            for item in range(self.length-1):
+                print(f'{self.date[item+1]} : Today died {self.death_daily[item]}')
+            my_plot.show()
+            my_plot.close()
+        if args == 4:
+            my_plot.plot(self.confirmed_percent_death)
+            my_plot.plot(self.confirmed_percent_recovered)
+            for item in range(self.length-1):
+                print(f'{self.date[item + 1]} : Today died {self.death_daily[item]} : Recovered {self.recovered}')
             my_plot.show()
             my_plot.close()
 
-    def draw(self):
-        pass
+    def draw(self, title):
+        # ------------------------------------------
+        # Create frame
+        # ------------------------------------------
+        self.frame = Tk()
+        self.frame.title(title)
+        self.frame.geometry('350x500+400+300')
+        self.my_listbox = Listbox(self.frame, height=350, selectmode=EXTENDED)
+        for item in self.countries:  # Append sorted conrty list
+            self.my_listbox.insert(END, item)
+
+        Button_1 = Button(self.frame, text="1)Total Deaths", command=lambda: self.clicked(1))
+        Button_2 = Button(self.frame, text="2)Percentage of recovered", command=lambda: self.clicked(2))
+        Button_3 = Button(self.frame, text="3)Percentage of deaths", command=lambda: self.clicked(3))
+
+        self.my_listbox.pack(side=RIGHT)
+        Button_1.pack()
+        Button_2.pack()
+        Button_3.pack()
+
+        mainloop()
 
 
 if __name__ == '__main__':
