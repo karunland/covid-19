@@ -30,11 +30,13 @@ class covid:
 
         for item in range(len(self.confirmed)):
             try:
-                self.confirmed_percent_death.append(self.death_daily[item] / self.confirmed_daily[item] * 100)
-                self.confirmed_percent_recovered.append(self.recovered_daily[item] / self.confirmed_daily[item] * 100)
+                self.confirmed_percent_death.append((self.death_daily[item] / self.confirmed_daily[item]) * 100)
+                self.confirmed_percent_recovered.append((self.recovered_daily[item] / self.confirmed_daily[item]) * 100)
             except ZeroDivisionError: # Avoid the zero division problem
-                self.confirmed_percent_death.append(0)
-                self.confirmed_percent_recovered.append(0)
+                pass
+                #out of range error
+                #self.confirmed_percent_death.append(0)
+                #self.confirmed_percent_recovered.append(0)
 
         # ------------------------------------------
         # Create frame
@@ -47,7 +49,7 @@ class covid:
 
     # API doesn't include death day by day, need to calculate
 
-    def daily_indormation(self, deaths_list_=None):
+    def daily_indormation(self, list=None):
         daily_list = [0]
         length = len(self.deaths)
 
@@ -56,7 +58,7 @@ class covid:
                 daily_list[item] = 0
             else:
                 try:
-                    result = deaths_list_[item] - deaths_list_[item - 1]
+                    result = list[item] - list[item - 1]
                     daily_list.append(result)
                 except:
                     daily_list.append(0)
@@ -64,7 +66,7 @@ class covid:
             """
             if item != self.length - 1:
 
-                result = deaths_list_[item + 1] - deaths_list_[item]
+                result = list[item + 1] - list[item]
                 if result >= 0:
                     daily_list.append(result)
             """
@@ -84,7 +86,7 @@ class covid:
         if args == 2:
             my_plot.plot(self.confirmed_percent_recovered)
             for item in range(self.length):
-                print(f'{self.date[item]} : recovered people = {self.recovered_daily[item]}')
+                print(f'{self.date[item]} : recovered people = {self.recovered_daily[item]} %{self.confirmed_percent_recovered[item]} people in {self.confirmed_daily}')
             my_plot.show()
             my_plot.close()
 
@@ -98,7 +100,7 @@ class covid:
             my_plot.plot(self.confirmed_percent_death)
             my_plot.plot(self.confirmed_percent_recovered)
             for item in range(self.length-1):
-                print(f'{self.date[item + 1]} : Today died {self.death_daily[item]} : Recovered {self.recovered}')
+                print(f'{self.date[item + 1]} : Today died {self.death_daily[item]} : Recovered {self.recovered[item]}')
             my_plot.show()
             my_plot.close()
 
@@ -108,7 +110,7 @@ class covid:
         # ------------------------------------------
         self.frame = Tk()
         self.frame.title(title)
-        self.frame.geometry('350x500+400+300')
+        self.frame.geometry('400x500+400+300')
         self.my_listbox = Listbox(self.frame, height=350, selectmode=EXTENDED)
         for item in self.countries:  # Append sorted conrty list
             self.my_listbox.insert(END, item)
@@ -116,11 +118,13 @@ class covid:
         Button_1 = Button(self.frame, text="1)Total Deaths", command=lambda: self.clicked(1))
         Button_2 = Button(self.frame, text="2)Percentage of recovered", command=lambda: self.clicked(2))
         Button_3 = Button(self.frame, text="3)Percentage of deaths", command=lambda: self.clicked(3))
+        Button_4 = Button(self.frame, text="4)Percentage of deaths and recovered", command=lambda: self.clicked(4))
 
         self.my_listbox.pack(side=RIGHT)
         Button_1.pack()
         Button_2.pack()
         Button_3.pack()
+        Button_4.pack()
 
         mainloop()
 
