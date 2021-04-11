@@ -37,4 +37,8 @@ class covid:
 
 if __name__ == '__main__':
     obj = covid()
-    print(obj.confirmed_percent_death)
+    for item in range(len(obj.confirmed)):
+        # print(f'%{obj.confirmed_percent_recovered[item]} people recovered: %{obj.confirmed_percent_death[item]} people died')
+        print('date:{}% {:.2f} people recovered : % {:.2f} people died.'.format(obj.date[item],
+                                                                                obj.confirmed_percent_recovered[item],
+                                                                                obj.confirmed_percent_death[item]))
