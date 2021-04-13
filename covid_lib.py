@@ -25,18 +25,20 @@ class covid:
         self.countries.sort()
         self.length = len(self.deaths)
 
-        self.confirmed_percent_recovered = [0]
-        self.confirmed_percent_death     = [0]
+        self.confirmed_percent_recovered = []
+        self.confirmed_percent_death     = []
 
         for item in range(len(self.confirmed)):
             try:
-                self.confirmed_percent_death.append((self.death_daily[item] / self.confirmed_daily[item]) * 100)
-                self.confirmed_percent_recovered.append((self.recovered_daily[item] / self.confirmed_daily[item]) * 100)
+                #self.confirmed_percent_death.append((self.death_daily[item] / self.confirmed_daily[item]) * 100)
+                #self.confirmed_percent_recovered.append((self.recovered_daily[item] / self.confirmed_daily[item]) * 100)
+                self.confirmed_percent_death.append((self.deaths[item] / self.confirmed[item]) * 100)
+                self.confirmed_percent_recovered.append((self.recovered[item] / self.confirmed[item]) * 100)
             except ZeroDivisionError: # Avoid the zero division problem
                 pass
                 #out of range error
-                #self.confirmed_percent_death.append(0)
-                #self.confirmed_percent_recovered.append(0)
+                self.confirmed_percent_death.append(0)
+                self.confirmed_percent_recovered.append(0)
 
         # ------------------------------------------
         # Create frame
