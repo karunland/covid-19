@@ -52,7 +52,7 @@ class covid:
     # API doesn't include death day by day, need to calculate
 
     def daily_information(self, list=None):
-        daily_list = [0]
+        daily_list = []
         length = len(self.deaths)
 
         for item in range(length):
