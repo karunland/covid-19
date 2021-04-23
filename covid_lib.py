@@ -17,11 +17,11 @@ class covid:
         self.recovered = [item['Recovered'] for item in self.data_covid]
         self.date = [item['Date'] for item in self.data_covid]
         self.deaths = [item['Deaths'] for item in self.data_covid]
-
+        """
         self.death_daily = self.daily_indormation(self.deaths)
         self.recovered_daily = self.daily_indormation(self.recovered)
         self.confirmed_daily = self.daily_indormation(self.confirmed)
-
+        """
         self.countries.sort()
         self.length = len(self.deaths)
 
@@ -82,30 +82,26 @@ class covid:
             my_plot.plot(self.deaths)
             for item in range(self.length):
                 print(f'{self.date[item]} : total death = {self.deaths[item]}')
-            my_plot.show()
-            my_plot.close()
 
         if args == 2:
             my_plot.plot(self.confirmed_percent_recovered)
             for item in range(self.length):
                 print(
                     f'{self.date[item]} : recovered people = {self.recovered_daily[item]} %{self.confirmed_percent_recovered[item]} people in {self.confirmed_daily}')
-            my_plot.show()
-            my_plot.close()
 
         if args == 3:
             my_plot.plot(self.confirmed_percent_death)
             for item in range(self.length - 1):
                 print(f'{self.date[item + 1]} : Today died {self.death_daily[item]}')
-            my_plot.show()
-            my_plot.close()
+
         if args == 4:
             my_plot.plot(self.confirmed_percent_death)
             my_plot.plot(self.confirmed_percent_recovered)
             for item in range(self.length - 1):
                 print(f'{self.date[item + 1]} : Today died {self.death_daily[item]} : Recovered {self.recovered[item]}')
-            my_plot.show()
-            my_plot.close()
+
+        my_plot.show()
+        my_plot.close()
 
     def draw(self, title):
         # ------------------------------------------
