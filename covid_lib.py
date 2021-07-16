@@ -4,7 +4,7 @@ import json
 from tkinter import *
 
 
-class covid:
+class Covid:
     def __init__(self, title='Covid-19', covid_url='https://api.covid19api.com/total/dayone/country/',
                  my_country='Turkey',
                  country_list='https://api.covid19api.com/countries'):
@@ -129,4 +129,4 @@ class covid:
 
 
 if __name__ == '__main__':
-    obj = covid()
+    Obj = Covid()
