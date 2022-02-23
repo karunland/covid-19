@@ -1,7 +1,8 @@
+#!/usr/bin/env python
 import matplotlib.pyplot as my_plot
 from urllib.request import urlopen
 import json
-from tkinter import *
+from tkinter import Tk, Listbox, Button, EXTENDED, END, RIGHT, mainloop
 
 
 class Covid:

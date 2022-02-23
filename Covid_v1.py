@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import matplotlib.pyplot as my_object
 from urllib.request import urlopen
 import json
